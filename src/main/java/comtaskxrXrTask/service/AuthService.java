@@ -23,7 +23,7 @@ public class AuthService {
 	// private static final int MAX_ATTEMPTS = 3;
 
 	private static final int MAX_ATTEMPTS = 4;
-	private static final long BLOCK_TIME_MINUTES = 1;
+	private static final long BLOCK_TIME_MINUTES = 10;
 
 	@Autowired
 	private AuthRepository authRepository;
