@@ -1,9 +1,13 @@
 package comtaskxrXrTask.service;
 
 import java.io.UnsupportedEncodingException;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
@@ -74,37 +78,61 @@ public class AuthService {
 		}
 	}
 
-	public String loginservice(String email, String password) {
-		UserMaster user = authRepository.findUserByEmail(email);
-		if (user == null) {
-			throw new UserException("Invalid email or password");
-		} else if (!user.getPassword().equals(password)) {
-			long attempts = user.getMinattempts();
-			if (attempts >= MAX_ATTEMPTS) {
-				long blockDuration = 10 * 60 * 1000; // 10 minutes in milliseconds
-				System.out.println("Block Duration = "+blockDuration);
-				System.out.println("");
-				LocalDateTime blockEnd = LocalDateTime.now().plus(blockDuration, ChronoUnit.MILLIS);
-				LocalDateTime blockEndTest = LocalDateTime.now();
-				System.out.println("blockEndTest = "+blockEndTest);
-				System.out.println("ChromoUnit.Miles = "+ChronoUnit.MILLIS);
-				System.out.println("BlockEnd : "+blockEnd);
-				
-				user.setBlockEnd(blockEnd);
-				authRepository.save(user);
-				throw new UserException("Maximum attempts exceeded. Please try again later.");
-			}
-			attempts++;
-			user.setMinattempts(attempts);
-			authRepository.save(user);
-			throw new UserException("Invalid email or password");
-		} else if (user.getBlockEnd() != null && LocalDateTime.now().isBefore(user.getBlockEnd())) {
-			throw new UserException("Account is blocked. Please try again later.");
-		}
-		user.setMinattempts(0);
-		user.setBlockEnd(null);
-		authRepository.save(user);
-		return "Login successful";
-	}
+//	public String loginService(String email, String password) {
+//		UserMaster user = authRepository.findUserByEmail(email);
+//		if (user == null) {
+//			throw new UserException("Invalid email or password");
+//		} else if (!user.getPassword().equals(password)) {
+//			long attempts = user.getMinattempts();
+//			if (attempts >= MAX_ATTEMPTS) {
+//				long blockDuration = 10 * 60 * 1000; // 10 minutes in milliseconds
+//				LocalDateTime blockEnd = LocalDateTime.now().plus(blockDuration, ChronoUnit.MILLIS);
+//
+//				user.setBlockEnd(blockEnd);
+//				authRepository.save(user);
+//				throw new UserException("Maximum attempts exceeded. Please try again later.");
+//			}
+//			attempts++;
+//			user.setMinattempts(attempts);
+//			authRepository.save(user);
+//			throw new UserException("Invalid email or password");
+//		} else if (user.getBlockEnd() != null && LocalDateTime.now().isBefore(user.getBlockEnd())) {
+//			throw new UserException("Account is blocked. Please try again later.");
+//		}
+//		user.setMinattempts(0l);
+//		user.setBlockEnd(null);
+//		authRepository.save(user);
+//		return "Login successful";
+//	}
+
+//	public void login(String email, String password) {
+//		UserMaster user = authRepository.findUserByEmail(email);
+//		if (user == null) {
+//			throw new UserException("Invalid email or password");
+//		} else if (user.getBlockEnd() != null && LocalDateTime.now().isBefore(user.getBlockEnd())) {
+//			System.out.println("User.getBlocked = " + user.getBlockEnd());
+//			System.out.println("LocalDateAndTime = " + LocalDateTime.now());
+//			authRepository.save(user);
+//			throw new UserException("Account is blocked. Please try again later.");
+//		} else if (!user.getPassword().equals(password)) {
+//			long BLOCK_TIME_MINUTES = 10;
+//			long attempts = user.getMinattempts();
+//			if (attempts >= MAX_ATTEMPTS) {
+//				long blockDuration = BLOCK_TIME_MINUTES * 60 * 1000; // in milliseconds
+//				LocalDateTime blockEnd = LocalDateTime.now().plus(blockDuration, ChronoUnit.MILLIS);
+//				user.setBlockEnd(blockEnd);
+//				authRepository.save(user);
+//				System.out.println("Blockend = " + user.getBlockEnd());
+//				throw new UserException("Maximum attempts exceeded. Please try again later.");
+//			}
+//			attempts++;
+//			user.setMinattempts(attempts);
+//			authRepository.save(user);
+//			throw new UserException("Invalid email or password");
+//		}
+//		user.setMinattempts(0L);
+//		user.setBlockEnd(null);
+//		authRepository.save(user);
+//	}
 
 }

@@ -43,11 +43,14 @@ public class UserMaster {
 	private String lastName;
 	
 	@JsonIgnore
-	private long minattempts;
+	private Long minattempts;
 	
 	@JsonIgnore
 	private LocalDateTime BlockEnd;
 	
 	@JsonIgnore
 	private Boolean lock;
+	
+//	@JsonIgnore
+//	private LocalDateTime BlockedUntil;
 }
