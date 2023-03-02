@@ -33,7 +33,7 @@ public class AuthController {
 	}
 
 
-	@PostMapping("/loginss")
+	@PostMapping("/login")
 	public ResponseEntity<UserMaster> login(@RequestParam String email, @RequestParam String password) {
 		
 			UserMaster user = authService.login(email, password);
