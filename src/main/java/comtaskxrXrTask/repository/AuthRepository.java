@@ -11,4 +11,6 @@ public interface AuthRepository extends JpaRepository<UserMaster, Integer> {
 	public Boolean existsByEmail(String email);
 
 	public UserMaster findUserByEmail(String email);
+	
+	public UserMaster findById(int id);
 }

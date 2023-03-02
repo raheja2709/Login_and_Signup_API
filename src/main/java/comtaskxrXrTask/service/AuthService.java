@@ -16,6 +16,7 @@ import comtaskxrXrTask.exception.UserException;
 import comtaskxrXrTask.model.UserMaster;
 import comtaskxrXrTask.repository.AuthRepository;
 import comtaskxrXrTask.request.RegisterDTO;
+import comtaskxrXrTask.request.UpdateDTO;
 
 @Service
 public class AuthService {
@@ -23,7 +24,7 @@ public class AuthService {
 	// private static final int MAX_ATTEMPTS = 3;
 
 	private static final int MAX_ATTEMPTS = 4;
-	private static final long BLOCK_TIME_MINUTES = 10;
+	private static final long BLOCK_TIME_MINUTES = 1;
 
 	@Autowired
 	private AuthRepository authRepository;
@@ -75,8 +76,6 @@ public class AuthService {
 		}
 	}
 
-	
-	
 	public UserMaster login(String email, String password) {
 		UserMaster user = authRepository.findUserByEmail(email);
 
@@ -96,8 +95,8 @@ public class AuthService {
 				user.setBlockEnd(blockEnd);
 				user.setMinattempts(0L); // Reset minattempts to zero after block period has expired
 				authRepository.save(user);
-				System.out.println("Current Time = "+LocalDateTime.now());
-				System.out.println("Unblock on = "+user.getBlockEnd());
+				System.out.println("Current Time = " + LocalDateTime.now());
+				System.out.println("Unblock on = " + user.getBlockEnd());
 				throw new UserException("Maximum attempts exceeded. Please try again later.");
 			}
 
@@ -111,6 +110,57 @@ public class AuthService {
 		authRepository.save(user);
 
 		return user;
+	}
+
+	public UserMaster updateUser(int Id, UpdateDTO users) throws UserException {
+
+		UserMaster userDetails = authRepository.findById(Id);
+		String specialChars = "~`!@#$%^&*()-_=+\\|[{]};:'\",<.>/?";
+		int upperCaseCount, lowerCaseCount, specialCharacter, numberCount;
+		upperCaseCount = lowerCaseCount = specialCharacter = numberCount = 0;
+		char currentCharacter;
+
+		if (userDetails == null) {
+			throw new UserException(Messages.USER_NOT_FOUND);
+		}
+
+		if (users.getUsername() != null && !users.getUsername().isEmpty()) {
+			userDetails.setUsername(users.getUsername());
+		}
+
+		if (users.getPassword() != null && !users.getPassword().isEmpty()) {
+			userDetails.setPassword(users.getPassword());
+		}
+
+		if (users.getFirstName() != null && !users.getFirstName().isEmpty()) {
+			userDetails.setFirstName(users.getFirstName());
+		}
+
+		if (users.getLastName() != null && !users.getLastName().isEmpty()) {
+			userDetails.setLastName(users.getLastName());
+		}
+
+		for (int i = 0; i < users.getPassword().length(); i++) {
+			currentCharacter = users.getPassword().charAt(i);
+			if (Character.isDigit(currentCharacter)) {
+				numberCount++;
+			} else if (Character.isUpperCase(currentCharacter)) {
+				upperCaseCount++;
+			} else if (Character.isLowerCase(currentCharacter)) {
+				lowerCaseCount++;
+			} else if (specialChars.contains(String.valueOf(currentCharacter))) {
+				specialCharacter++;
+			}
+		}
+
+		if (upperCaseCount >= 2 && lowerCaseCount >= 2 && specialCharacter >= 1 && numberCount >= 1) {
+
+			return authRepository.save(userDetails);
+
+		} else {
+			throw new UserException(Messages.PASSWORD_CONTAINS);
+		}
+
 	}
 
 }
