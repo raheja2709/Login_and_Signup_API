@@ -2,7 +2,6 @@ package comtaskxrXrTask.service;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 import javax.mail.MessagingException;
@@ -24,8 +23,7 @@ public class AuthService {
 	// private static final int MAX_ATTEMPTS = 3;
 
 	private static final int MAX_ATTEMPTS = 4;
-	private static final long BLOCK_TIME_MINUTES = 1;
-
+	private static final long BLOCK_TIME_MINUTES = 10;
 	@Autowired
 	private AuthRepository authRepository;
 
