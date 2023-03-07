@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xr.pet.mng.sys.PetMngSys.Request.UpdateDTO;
 import com.xr.pet.mng.sys.PetMngSys.Response.ApiResponse;
 import com.xr.pet.mng.sys.PetMngSys.Service.UserService;
 
@@ -31,4 +32,13 @@ public class UserController {
 
 	}
 	
+	@PostMapping(value="/resendOTP")
+	public ResponseEntity<Object> resendOTP(@RequestParam long mobilenumber){
+		return new ResponseEntity<>(userService.resendotp(mobilenumber),HttpStatus.OK);
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<Object> update(int id,UpdateDTO user) {
+		return new ResponseEntity<>(userService.update(id, user),HttpStatus.OK);
+	}
 }

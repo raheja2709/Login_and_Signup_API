@@ -20,14 +20,22 @@ public class UserMaster {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	@Column(name="countrycode")
+	@Column(name = "countrycode")
 	private int countryCode;
-	@Column(name="mobilenumber")
+	@Column(name = "mobilenumber")
 	private Long mobileNumber;
-	@Column(name="registered")
-	private boolean registered;
-	@Column(name="otp")
+	@Column(name = "otp")
 	private Long otp;
+	@Column(name = "otpSentTime")
+	private Long otpSentTime;
+	@Column(name = "firstName")
+	private String firstName;
+	@Column(name = "lastName")
+	private String lastName;
+	@Column(name = "email")
+	private String email;
+	@Column(name="verified")
+	private boolean verified;
 }
