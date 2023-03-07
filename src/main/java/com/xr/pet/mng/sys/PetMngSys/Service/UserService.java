@@ -21,14 +21,12 @@ public class UserService {
 		UserMaster existingUser = userRepository.findByMobileNumber(mobilenumber);
 		if (existingUser != null) {
 			long otp = 111111;
-			System.out.println("Existing User");
 			existingUser.setOtp(otp);
 			existingUser.setOtpSentTime(new Date().getTime());
 			existingUser.setVerified(false);
 			return userRepository.save(existingUser);
 		}
 		long otp = 111111;
-		System.out.println("New User");
 		UserMaster newUser = UserMaster.builder().countryCode(countrycode).mobileNumber(mobilenumber).otp(otp)
 				.otpSentTime(new Date().getTime()).verified(false).build();
 		return userRepository.save(newUser);
@@ -70,7 +68,7 @@ public class UserService {
 		if (userMaster == null) {
 			throw new UserException(Messages.USER_NOT_FOUND);
 		}
-		if(!userMaster.isVerified()) {
+		if (!userMaster.isVerified()) {
 			throw new UserException(Messages.USER_NOT_VERIFIED);
 		}
 		if (user.getFirstName() != null && !user.getFirstName().isEmpty()) {
