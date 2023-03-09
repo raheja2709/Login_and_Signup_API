@@ -3,12 +3,14 @@ package com.xr.pet.mng.sys.PetMngSys.Service;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.xr.pet.mng.sys.PetMngSys.Exception.UserException;
 import com.xr.pet.mng.sys.PetMngSys.Model.UserMaster;
 import com.xr.pet.mng.sys.PetMngSys.Repository.UserRepository;
 import com.xr.pet.mng.sys.PetMngSys.Request.UpdateDTO;
+import com.xr.pet.mng.sys.PetMngSys.Security.JwtTokenProvider;
 import com.xr.pet.mng.sys.PetMngSys.Utils.Messages;
 
 @Service
@@ -16,6 +18,23 @@ public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	private CustomUserDetailsServices customUserDetailsServices;
+
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+	private PasswordEncoder bCryptPasswordEncoder;
+
+	public UserMaster findByMobileNumber(long mobilenumber) {
+		return userRepository.findByMobileNumber(mobilenumber);
+	}
+
+	public UserMaster findUserById(int id) {
+		return userRepository.findById(id);
+	}
 
 	public UserMaster addUser(int countrycode, long mobilenumber) {
 		UserMaster existingUser = userRepository.findByMobileNumber(mobilenumber);
@@ -37,6 +56,9 @@ public class UserService {
 		if (user == null) {
 			throw new UserException(Messages.USER_NOT_FOUND);
 		}
+		if (user.isVerified()) {
+			throw new UserException(Messages.USER_NOT_VERIFIED);
+		}
 		if (!user.getOtp().equals(otp)) {
 			throw new UserException(Messages.OTP_NOT_MATCH);
 		}
@@ -48,7 +70,12 @@ public class UserService {
 		user.setOtp(null);
 		user.setOtpSentTime(null);
 		user.setVerified(true);
+		user.setToken(JwtService.getJwtToken(user, customUserDetailsServices, jwtTokenProvider, bCryptPasswordEncoder));
 		return userRepository.save(user);
+	}
+
+	public UserMaster getUserDetail(int userid) {
+		return userRepository.findById(userid);
 	}
 
 	public Long resendotp(long mobilenumber) {
@@ -68,18 +95,13 @@ public class UserService {
 		if (userMaster == null) {
 			throw new UserException(Messages.USER_NOT_FOUND);
 		}
-		if (!userMaster.isVerified()) {
-			throw new UserException(Messages.USER_NOT_VERIFIED);
-		}
-		if (user.getFirstName() != null && !user.getFirstName().isEmpty()) {
-			userMaster.setFirstName(user.getFirstName());
-		}
-		if (user.getLastName() != null && !user.getLastName().isEmpty()) {
-			userMaster.setLastName(user.getLastName());
-		}
-		if (user.getEmail() != null && !user.getLastName().isEmpty()) {
-			userMaster.setEmail(user.getEmail());
-		}
+
+		userMaster.setFirstName(user.getFirstName());
+
+		userMaster.setLastName(user.getLastName());
+
+		userMaster.setEmail(user.getEmail());
+
 		return userRepository.save(userMaster);
 
 	}

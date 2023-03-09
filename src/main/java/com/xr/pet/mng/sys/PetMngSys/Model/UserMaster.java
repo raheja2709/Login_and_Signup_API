@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserMaster {
+public class UserMaster extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +37,8 @@ public class UserMaster {
 	private String lastName;
 	@Column(name = "email")
 	private String email;
-	@Column(name="verified")
+	@Column(name = "verified")
 	private boolean verified;
+	@Transient
+	private String token;
 }
