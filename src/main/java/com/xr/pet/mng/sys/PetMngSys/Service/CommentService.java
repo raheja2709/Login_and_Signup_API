@@ -1,6 +1,5 @@
 package com.xr.pet.mng.sys.PetMngSys.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +20,19 @@ public class CommentService {
 
 	@Autowired
 	CommentRepository commentRepository;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	PostService postService;
 
 	public List<CommentDTO> getAllComments(Long postId) {
-		List<Comment> comments = commentRepository.findByPostId(postId);
-		List<CommentDTO> commentsDTO = new ArrayList<>();
-		for (Comment com : comments) {
-			UserMaster user = userService.findUserById(com.getUserId());
-			CommentDTO commentDTO = new CommentDTO(user.getFirstName(), user.getLastName(), com.getText());
-			commentsDTO.add(commentDTO);
+		Post post = postService.findByPostId(postId);
+		if (post == null) {
+			throw new UserException(Messages.POST_NOT_FOUND);
 		}
-		return commentsDTO;
+		return commentRepository.findCommentsWithUserDetails(postId);
 	}
 
 	public Post addComment(Long postId, CommentRequest commentRequest) {
@@ -45,12 +41,13 @@ public class CommentService {
 			throw new UserException(Messages.POST_NOT_FOUND);
 		}
 		Comment comment = new Comment();
-		comment.setPostId(postId);
+		comment.setPost(post);
 		if (commentRequest.getText() == null || commentRequest.getText().isEmpty()) {
 			throw new UserException(Messages.ENTER_TEXT);
 		}
 		comment.setText(commentRequest.getText());
-		comment.setUserId(Utils.getJwtUserId());
+		UserMaster user = userService.findUserById(Utils.getJwtUserId());
+		comment.setUser(user);
 		commentRepository.save(comment);
 		return postService.save(post);
 	}

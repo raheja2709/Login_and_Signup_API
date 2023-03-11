@@ -37,8 +37,8 @@ public class UserController {
 	}
 
 	@PostMapping("/update")
-	public ResponseEntity<Object> update(int id, UpdateDTO user) {
-		return new ResponseEntity<>(userService.update(id, user), HttpStatus.OK);
+	public ResponseEntity<Object> update(UpdateDTO user) {
+		return new ResponseEntity<>(userService.update(user), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "getAllUsers")

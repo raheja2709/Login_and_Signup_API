@@ -13,6 +13,7 @@ import com.xr.pet.mng.sys.PetMngSys.Repository.UserRepository;
 import com.xr.pet.mng.sys.PetMngSys.Request.UpdateDTO;
 import com.xr.pet.mng.sys.PetMngSys.Security.JwtTokenProvider;
 import com.xr.pet.mng.sys.PetMngSys.Utils.Messages;
+import com.xr.pet.mng.sys.PetMngSys.Utils.Utils;
 
 @Service
 public class UserService {
@@ -84,6 +85,9 @@ public class UserService {
 		if (user == null) {
 			throw new UserException(Messages.USER_NOT_FOUND);
 		}
+		if (user.isVerified()) {
+			throw new UserException(Messages.USER_ALREADY_REGISTERED);
+		}
 		long otp = 111111;
 		user.setOtpSentTime(new Date().getTime());
 		user.setOtp(otp);
@@ -91,8 +95,8 @@ public class UserService {
 		return otp;
 	}
 
-	public UserMaster update(int id, UpdateDTO user) {
-		UserMaster userMaster = userRepository.findById(id);
+	public UserMaster update(UpdateDTO user) {
+		UserMaster userMaster = userRepository.findById(Utils.getJwtUserId());
 		if (userMaster == null) {
 			throw new UserException(Messages.USER_NOT_FOUND);
 		}

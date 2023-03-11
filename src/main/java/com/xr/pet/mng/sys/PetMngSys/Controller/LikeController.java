@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xr.pet.mng.sys.PetMngSys.Model.Like;
 import com.xr.pet.mng.sys.PetMngSys.Request.LikesDTO;
 import com.xr.pet.mng.sys.PetMngSys.Service.LikeService;
 
@@ -26,14 +27,15 @@ public class LikeController {
 	public ResponseEntity<Object> addLikeToPost(@PathVariable("postId") Long postId) {
 		return new ResponseEntity<>(likeService.addLike(postId), HttpStatus.OK);
 	}
+//	Get List of Likes on Java Spring boot  
 
 	@DeleteMapping("/{postId}/removeLike")
 	public ResponseEntity<Object> removeLike(@PathVariable("postId") Long postId) {
 		return new ResponseEntity<>(likeService.removeLike(postId), HttpStatus.OK);
 	}
 
-	@GetMapping("/{postId}/likes")
-	public List<LikesDTO> getAllLikeAPI(@PathVariable Long postId) {
-		return likeService.getAllLikes(postId);
+	@GetMapping("/posts/{postId}/likes")
+	public List<LikesDTO> getAllLikesOnPost(@PathVariable Long postId) {
+		return likeService.getAllLikesOnPost(postId);
 	}
 }
