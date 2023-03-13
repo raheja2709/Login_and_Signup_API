@@ -75,7 +75,9 @@ public class PostService {
 		if (!post.getPostCreatorsId().equals(userId)) {
 			throw new UserException(Messages.INVALID_ID);
 		}
-		postRepository.deletePostCascade(postId);
+		postRepository.deleteCommentsForPost(postId);
+		postRepository.deleteLikesForPost(postId);
+		postRepository.deletePost(postId);
 		return "Post deleted";
 	}
 
