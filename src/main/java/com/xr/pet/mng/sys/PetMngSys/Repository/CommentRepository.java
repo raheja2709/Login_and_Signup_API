@@ -19,7 +19,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
 	List<Comment> findByPostId(long postId);
 
-							//Class CommentDTO Path 					   //Getting this 3 Fields From Comment         //Joined User Who Commented on Post
-    @Query("SELECT NEW com.xr.pet.mng.sys.PetMngSys.Request.CommentDTO(u.firstName, u.lastName, c.text) FROM Comment c JOIN c.user u WHERE c.post.id = :postId")
-    List<CommentDTO> findCommentsWithUserDetails(@Param("postId") Long postId);
+	// Class CommentDTO Path //Getting this 3 Fields From Comment //Joined User Who
+	// Commented on Post
+	@Query("SELECT NEW com.xr.pet.mng.sys.PetMngSys.Request.CommentDTO(u.firstName, u.lastName, c.text) FROM Comment c JOIN c.user u WHERE c.post.id = :postId")
+	List<CommentDTO> findCommentsWithUserDetails(@Param("postId") Long postId);
 }

@@ -26,8 +26,8 @@ public class PostService {
 	@Autowired
 	PostRepository postRepository;
 
-	@Autowired
-	CommentService commentService;
+//	@Autowired
+//	CommentService commentService;
 
 	@Autowired
 	LikeService likeService;

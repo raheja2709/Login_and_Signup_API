@@ -29,7 +29,7 @@ public class CommentController {
 	}
 
 	@GetMapping("/comments")
-	public List<CommentDTO> getAllComments(@RequestParam(required = true) long postId) {
+	public List<CommentDTO> getAllCommentsOnPost(@RequestParam(required = true) long postId) {
 		return commentService.getAllComments(postId);
 	}
 }

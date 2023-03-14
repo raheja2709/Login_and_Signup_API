@@ -10,6 +10,7 @@ public class Messages {
 	public static final String USER_NOT_VERIFIED = "User not Verifid";
 	public static final String CONTEXT = "context";
 	public static final String ENTER_USERID = "Please Enter UserId";
+	public static final String EMAIL_EXISTS = "Email Already Exists";
 	//Post Related Messages
 	public static final String INVALID_ID = "You have Entered Invalid ID";
 	public static final String POST_NOT_FOUND = "Post Not Found";

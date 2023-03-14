@@ -33,7 +33,4 @@ public class Like extends Auditable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")
 	private Post post;
-
-	private Long likes;
-
 }

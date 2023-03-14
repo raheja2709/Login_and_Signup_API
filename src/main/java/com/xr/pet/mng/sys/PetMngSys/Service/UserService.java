@@ -105,6 +105,9 @@ public class UserService {
 
 		userMaster.setLastName(user.getLastName());
 
+		if(userRepository.existsByEmail(user.getEmail())) {
+			throw new UserException(Messages.EMAIL_EXISTS);
+		}
 		userMaster.setEmail(user.getEmail());
 
 		return userRepository.save(userMaster);
