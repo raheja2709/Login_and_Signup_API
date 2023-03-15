@@ -22,7 +22,7 @@ import com.xr.pet.mng.sys.PetMngSys.Service.CustomUserDetailsServices;
 /**
  * This class use for security configuration
  * 
- * @author Mamta Chovatia
+ * @author Jatin Raheja
  *
  */
 @Configuration
@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtAuthenticationEntryPoint unauthorizedHandler;
 
 	@Bean
-	public JwtAuthenticationFilter jwtAuthenticationFilter() {
+	JwtAuthenticationFilter jwtAuthenticationFilter() {
 		return new JwtAuthenticationFilter();
 	}
 

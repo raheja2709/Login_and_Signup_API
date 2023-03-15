@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import com.xr.pet.mng.sys.PetMngSys.Exception.UserException;
 import com.xr.pet.mng.sys.PetMngSys.Model.Like;
 import com.xr.pet.mng.sys.PetMngSys.Model.Post;
-import com.xr.pet.mng.sys.PetMngSys.Model.UserMaster;
 import com.xr.pet.mng.sys.PetMngSys.Repository.LikeRepository;
-import com.xr.pet.mng.sys.PetMngSys.Repository.PostRepository;
 import com.xr.pet.mng.sys.PetMngSys.Repository.UserRepository;
 import com.xr.pet.mng.sys.PetMngSys.Request.LikesDTO;
 import com.xr.pet.mng.sys.PetMngSys.Utils.Messages;
@@ -38,21 +36,22 @@ public class LikeService {
 		if (existingLike != null) {
 			throw new UserException(Messages.ALREADY_LIKED);
 		}
-		UserMaster user = userRepository.findById(userId);
 		Like like = new Like();
-		like.setUser(user);
-		like.setPost(post);
+		like.setUserId(userId);
+		like.setPostId(postId);
 		like = likeRepository.save(like); // save the new Like entity
 
 		return post;
 	}
 
-	public List<LikesDTO> getAllLikesOnPost(long postId) {
+
+	public List<LikesDTO> getUsersWhoLikedPost(long postId) {
 		Post post = postService.findByPostId(postId);
 		if (post == null) {
 			throw new UserException(Messages.POST_NOT_FOUND);
 		}
-		return likeRepository.getAllLikesOnPost(postId);
+		List<LikesDTO> userslikes = likeRepository.getListOfLikesOnPost(postId);
+		return userslikes;
 	}
 
 	public void removeLike(Long postId) {

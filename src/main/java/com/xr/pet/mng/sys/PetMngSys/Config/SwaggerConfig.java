@@ -23,7 +23,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig extends WebMvcConfigurerAdapter {
 
 	@Bean
-	public Docket apiDocket() {
+	Docket apiDocket() {
 		// Adding Header
 		ParameterBuilder aParameterBuilder = new ParameterBuilder();
 		aParameterBuilder.name("Authorization") // name of header

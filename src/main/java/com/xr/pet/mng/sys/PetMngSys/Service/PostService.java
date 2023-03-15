@@ -2,6 +2,8 @@ package com.xr.pet.mng.sys.PetMngSys.Service;
 
 import java.io.IOException;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.xr.pet.mng.sys.PetMngSys.Exception.UserException;
 import com.xr.pet.mng.sys.PetMngSys.Model.Post;
+import com.xr.pet.mng.sys.PetMngSys.Repository.CommentRepository;
+import com.xr.pet.mng.sys.PetMngSys.Repository.LikeRepository;
 import com.xr.pet.mng.sys.PetMngSys.Repository.PostRepository;
 import com.xr.pet.mng.sys.PetMngSys.Request.PostDTO;
 import com.xr.pet.mng.sys.PetMngSys.Utils.Constants;
@@ -26,8 +30,11 @@ public class PostService {
 	@Autowired
 	PostRepository postRepository;
 
-//	@Autowired
-//	CommentService commentService;
+	@Autowired
+	LikeRepository likeRepository;
+
+	@Autowired
+	CommentRepository commentRepository;
 
 	@Autowired
 	LikeService likeService;
@@ -66,6 +73,7 @@ public class PostService {
 		}
 	}
 
+	@Transactional
 	public String deletePost(Long postId) {
 		Post post = postRepository.findById(postId);
 		int userId = Utils.getJwtUserId();
@@ -75,9 +83,9 @@ public class PostService {
 		if (!post.getPostCreatorsId().equals(userId)) {
 			throw new UserException(Messages.INVALID_ID);
 		}
-		postRepository.deleteCommentsForPost(postId);
-		postRepository.deleteLikesForPost(postId);
-		postRepository.deletePost(postId);
+		postRepository.deletePostById(postId);
+		commentRepository.deleteCommentByPostId(postId);
+		likeRepository.deleteLikesByPostId(postId);
 		return "Post deleted";
 	}
 

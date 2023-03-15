@@ -32,7 +32,7 @@ public class LikeController {
 
 	@GetMapping("/likes/{postId}")
 	public ResponseEntity<Object> getAllLikesOnPost(@PathVariable("postId") long postId) {
-		return new ResponseEntity<>(likeService.getAllLikesOnPost(postId), HttpStatus.OK);
+		return new ResponseEntity<>(likeService.getUsersWhoLikedPost(postId), HttpStatus.OK);
 	}
 
 	@PostMapping("/{postId}/dislike")

@@ -41,7 +41,7 @@ public class UserController {
 		return new ResponseEntity<>(userService.update(user), HttpStatus.OK);
 	}
 
-	@GetMapping(value = "getAllUsers")
+	@GetMapping(value = "/getAllUsers")
 	public List<UserMaster> getAllUsers() {
 		return userService.findAllUsers();
 	}
