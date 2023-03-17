@@ -11,7 +11,7 @@ import com.xr.pet.mng.sys.PetMngSys.Request.CommentDTO;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-	Comment findByPostIdAndUserId(long postId, int userId);
+	Comment findByPostIdAndUserId(long postId, long userId);
 
 	Comment findById(Long id);
 
@@ -19,9 +19,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
 	List<Comment> findByPostId(long id);
 
-	@Query("SELECT new com.xr.pet.mng.sys.PetMngSys.Request.CommentDTO(u.firstName, u.lastName, c.text) FROM UserMaster u JOIN u.postComments c WHERE c.postId = :postId")
-	List<CommentDTO> getAllCommentsOnPost(@Param("postId") Long postId);
-
 	void deleteCommentByPostId(Long postId);
+
+	@Query(value = "SELECT c.text as commentText, u.first_name as userFirstName, u.last_name as userLastName FROM user_master u INNER JOIN comments c ON u.user_id = c.userId WHERE c.postid=:postId", nativeQuery = true)
+	List<CommentDTO> getAllCommentsOnPost(@Param("postId") Long postId);
 
 }

@@ -32,8 +32,8 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/getDetails")
-	public ResponseEntity<Object> verify(@RequestParam int id) {
-		return new ResponseEntity<>(new ApiResponse(userService.getUserDetail(id)), HttpStatus.OK);
+	public ResponseEntity<Object> verify(@RequestParam long userId) {
+		return new ResponseEntity<>(new ApiResponse(userService.getUserDetail(userId)), HttpStatus.OK);
 	}
 
 	@PostMapping("/update")

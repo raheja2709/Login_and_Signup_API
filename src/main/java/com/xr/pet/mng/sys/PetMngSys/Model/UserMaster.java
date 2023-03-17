@@ -1,16 +1,11 @@
 package com.xr.pet.mng.sys.PetMngSys.Model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,54 +20,44 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "user_master")
 public class UserMaster extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long userId;
 
-	@JsonIgnore
-	@Column(name = "countrycode")
-	private int countryCode;
+    @Column(name = "country_code")
+    @JsonIgnore
+    private int countryCode;
 
-	@JsonIgnore
-	@Column(name = "mobilenumber")
-	private Long mobileNumber;
+    @Column(name = "mobile_number")
+    @JsonIgnore
+    private Long mobileNumber;
 
-	@JsonIgnore
-	@Column(name = "otp")
-	private Long otp;
+    @Column(name = "otp")
+    @JsonIgnore
+    private Long otp;
 
-	@JsonIgnore
-	@Column(name = "otpSentTime")
-	private Long otpSentTime;
+    @Column(name = "otp_sent_time")
+    @JsonIgnore
+    private Long otpSentTime;
 
-	@Column(name = "firstName")
-	private String firstName;
+    @Column(name = "first_name")
+    private String firstName;
 
-	@Column(name = "lastName")
-	private String lastName;
+    @Column(name = "last_name")
+    private String lastName;
 
-	@JsonIgnore
-	@Column(name = "email")
-	private String email;
+    @Column(name = "email")
+    @JsonIgnore
+    private String email;
 
-	@JsonIgnore
-	@Column(name = "verified")
-	private boolean verified;
+    @Column(name = "verified")
+    @JsonIgnore
+    private boolean verified;
 
-	@JsonIgnore
-	@OneToMany(targetEntity = Like.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "userId", referencedColumnName = "id")
-	private List<Like> likes = new ArrayList<>();
-
-	@JsonIgnore
-	@OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "userId", referencedColumnName = "id")
-	private List<Comment> postComments;
-
-	@Transient
-	@JsonIgnore
-	private String token;
+    @Transient
+    private String token;
 }

@@ -48,7 +48,7 @@ public class PostService {
 	}
 
 	public Post addPost(MultipartFile file, PostDTO post) throws IOException {
-		int userId = Utils.getJwtUserId();
+		long userId = Utils.getJwtUserId();
 		Post newpost = new Post();
 		newpost.setTag(post.getTag());
 		newpost.setLocation(post.getLocation());
@@ -76,7 +76,7 @@ public class PostService {
 	@Transactional
 	public String deletePost(Long postId) {
 		Post post = postRepository.findById(postId);
-		int userId = Utils.getJwtUserId();
+		long userId = Utils.getJwtUserId();
 		if (post == null) {
 			throw new UserException(Messages.POST_NOT_FOUND);
 		}
@@ -94,7 +94,7 @@ public class PostService {
 		if (posts == null) {
 			throw new UserException(Messages.POST_NOT_FOUND);
 		}
-		Integer userId = Utils.getJwtUserId();
+		Long userId = Utils.getJwtUserId();
 		if (!userId.equals(posts.getPostCreatorsId())) {
 			throw new UserException(Messages.INVALID_ID);
 		}

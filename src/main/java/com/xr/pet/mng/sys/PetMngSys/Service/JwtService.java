@@ -15,7 +15,7 @@ public class JwtService {
 	public static String getJwtToken(UserMaster user, CustomUserDetailsServices customUserDetailService,
 			JwtTokenProvider jwtTokenProvider, PasswordEncoder bCryptPasswordEncoder) {
 
-		UserDetails userDetails = customUserDetailService.loadUserById(user.getId());
+		UserDetails userDetails = customUserDetailService.loadUserById(user.getUserId());
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
 				user.getMobileNumber());
 

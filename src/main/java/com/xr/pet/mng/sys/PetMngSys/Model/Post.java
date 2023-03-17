@@ -50,5 +50,5 @@ public class Post extends Auditable {
 	@JoinColumn(name = "postId", referencedColumnName = "id")
 	private List<Comment> postComments;
 
-	private Integer postCreatorsId;
+	private Long postCreatorsId;
 }

@@ -20,13 +20,13 @@ public class CustomUserDetailsServices implements UserDetailsService {
 	@Transactional
 	public UserPrincipal loadUserByUsername(long mobilenumber) throws UsernameNotFoundException {
 		UserMaster user = userService.findByMobileNumber(mobilenumber);
-		return UserPrincipal.createUser(user.getId());
+		return UserPrincipal.createUser(user.getUserId());
 	}
 
 	@Transactional
-	public UserDetails loadUserById(int id) throws UsernameNotFoundException {
+	public UserDetails loadUserById(long id) throws UsernameNotFoundException {
 		UserMaster user = userService.findUserById(id);
-		return UserPrincipal.createUser(user.getId());
+		return UserPrincipal.createUser(user.getUserId());
 	}
 
 	@Override

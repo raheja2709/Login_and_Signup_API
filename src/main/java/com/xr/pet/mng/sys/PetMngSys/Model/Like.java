@@ -19,7 +19,7 @@ public class Like extends Auditable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private Integer userId;
+	private Long userId;
 
 	private Long postId;
 

@@ -34,8 +34,8 @@ public class UserService {
 		return userRepository.findByMobileNumber(mobilenumber);
 	}
 
-	public UserMaster findUserById(int id) {
-		return userRepository.findById(id);
+	public UserMaster findUserById(long id) {
+		return userRepository.findByUserId(id);
 	}
 
 	public UserMaster addUser(int countrycode, long mobilenumber) {
@@ -76,8 +76,8 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public UserMaster getUserDetail(int userid) {
-		return userRepository.findById(userid);
+	public UserMaster getUserDetail(long userid) {
+		return userRepository.findByUserId(userid);
 	}
 
 	public Long resendotp(long mobilenumber) {
@@ -96,7 +96,7 @@ public class UserService {
 	}
 
 	public UserMaster update(UpdateDTO user) {
-		UserMaster userMaster = userRepository.findById(Utils.getJwtUserId());
+		UserMaster userMaster = userRepository.findByUserId(Utils.getJwtUserId());
 		if (userMaster == null) {
 			throw new UserException(Messages.USER_NOT_FOUND);
 		}

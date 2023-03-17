@@ -19,12 +19,12 @@ public class UserPrincipal implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
-	private int id;
+	private long id;
 
 	/**
 	 * @param id id of user.
 	 */
-	public UserPrincipal(int id) {
+	public UserPrincipal(long id) {
 		this.id = id;
 	}
 
@@ -34,7 +34,7 @@ public class UserPrincipal implements UserDetails {
 	 * @param id id of user.
 	 * @return {@link UserPrincipal}
 	 */
-	public static UserPrincipal createUser(int id) {
+	public static UserPrincipal createUser(long id) {
 		return new UserPrincipal(id);
 	}
 

@@ -37,7 +37,7 @@ public class Utils {
 		return storedFilePath;
 	}
 
-	public static int getJwtUserId() {
+	public static long getJwtUserId() {
 
 		UserPrincipal user = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return user.getId();

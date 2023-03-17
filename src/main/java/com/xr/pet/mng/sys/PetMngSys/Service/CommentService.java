@@ -26,14 +26,6 @@ public class CommentService {
 	@Autowired
 	PostService postService;
 
-	public List<CommentDTO> getAllComments(Long postId) {
-		Post post = postService.findByPostId(postId);
-		if (post == null) {
-			throw new UserException(Messages.POST_NOT_FOUND);
-		}
-		return commentRepository.getAllCommentsOnPost(postId);
-	}
-
 	public Post addComment(Long postId, CommentRequest commentRequest) {
 		Post post = postService.findByPostId(postId);
 		if (post == null) {
@@ -45,10 +37,20 @@ public class CommentService {
 			throw new UserException(Messages.ENTER_TEXT);
 		}
 		comment.setText(commentRequest.getText());
-		int userId = Utils.getJwtUserId();
+		long userId = Utils.getJwtUserId();
 		comment.setUserId(userId);
 		commentRepository.save(comment);
 		return postService.save(post);
+	}
+
+	public List<CommentDTO> getAllComments(Long postId) {
+		Post post = postService.findByPostId(postId);
+		if (post == null) {
+			throw new UserException(Messages.POST_NOT_FOUND);
+		}
+		List<CommentDTO> results = commentRepository.getAllCommentsOnPost(postId);
+
+		return results;
 	}
 
 	public List<Comment> findByPostId(long postId) {

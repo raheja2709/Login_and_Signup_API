@@ -1,9 +1,7 @@
 package com.xr.pet.mng.sys.PetMngSys.Request;
 
-public interface CommentDTO {
-
-	String getCommentText();
-
+public interface LikeDTO {
+	
 	String getUserFirstName();
 
 	String getUserLastName();

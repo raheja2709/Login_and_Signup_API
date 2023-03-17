@@ -46,7 +46,10 @@ public class JwtTokenProvider {
 		Date now = new Date();
 		Date exp = new Date(System.currentTimeMillis() + jwtExpirationInMs);
 		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-		return Jwts.builder().setSubject(Integer.toString(userPrincipal.getId())).setIssuedAt(now).setExpiration(exp)
+		String token = Jwts.builder().setSubject(Long.toString(userPrincipal.getId())).setIssuedAt(now).setExpiration(exp)
+				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+		System.out.println("Tokem = "+token);
+		return Jwts.builder().setSubject(Long.toString(userPrincipal.getId())).setIssuedAt(now).setExpiration(exp)
 				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 
 	}
