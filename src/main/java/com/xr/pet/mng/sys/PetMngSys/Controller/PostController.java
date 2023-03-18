@@ -28,7 +28,7 @@ public class PostController {
 	PostService postService;
 
 	@PostMapping("/addPost")
-	public ResponseEntity<Object> createPost(@RequestParam MultipartFile file, PostDTO postDTO) throws IOException {
+	public ResponseEntity<Object> createPost(@RequestParam(required=false) MultipartFile file, PostDTO postDTO) throws IOException {
 		return new ResponseEntity<>(postService.addPost(file, postDTO), HttpStatus.CREATED);
 	}
 
@@ -44,8 +44,8 @@ public class PostController {
 	}
 
 	@PutMapping("/update/post/{postId}")
-	public ResponseEntity<Object> updatePost(@PathVariable Long postId, @RequestParam MultipartFile image, PostDTO post)
-			throws IOException {
+	public ResponseEntity<Object> updatePost(@PathVariable Long postId,
+			@RequestParam(required = false) MultipartFile image, PostDTO post) throws IOException {
 		return new ResponseEntity<>(postService.updatePost(postId, image, post), HttpStatus.OK);
 	}
 

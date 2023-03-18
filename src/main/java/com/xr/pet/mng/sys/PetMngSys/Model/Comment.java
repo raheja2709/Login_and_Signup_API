@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -24,23 +23,16 @@ import lombok.NoArgsConstructor;
 public class Comment extends Auditable {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
 	@JsonIgnore
-    private Long userId;
+	private Long userId;
 
 	@JsonIgnore
-    private Long postId;
+	private Long postId;
 
-    @NotBlank(message = "Content cannot be blank")
-    private String text;
-
-    @Transient
-    private String firstName;
-
-    @Transient	
-    private String lastName;
-
+	@NotBlank(message = "Content cannot be blank")
+	private String text;
 }
