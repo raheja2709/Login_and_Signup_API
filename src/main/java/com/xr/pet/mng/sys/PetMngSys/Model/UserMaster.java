@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,41 +21,35 @@ import lombok.NoArgsConstructor;
 @Table(name = "user_master")
 public class UserMaster extends Auditable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private Long userId;
 
-    @Column(name = "country_code")
-    @JsonIgnore
-    private int countryCode;
+	@Column(name = "country_code")
+	private int countryCode;
 
-    @Column(name = "mobile_number")
-    @JsonIgnore
-    private Long mobileNumber;
+	@Column(name = "mobile_number")
+	private Long mobileNumber;
 
-    @Column(name = "otp")
-    @JsonIgnore
-    private Long otp;
+	@Column(name = "otp")
+	private Long otp;
 
-    @Column(name = "otp_sent_time")
-    @JsonIgnore
-    private Long otpSentTime;
+	@Column(name = "otp_sent_time")
+	private Long otpSentTime;
 
-    @Column(name = "first_name")
-    private String firstName;
+	@Column(name = "first_name")
+	private String firstName;
 
-    @Column(name = "last_name")
-    private String lastName;
+	@Column(name = "last_name")
+	private String lastName;
 
-    @Column(name = "email")
-    @JsonIgnore
-    private String email;
+	@Column(name = "email")
+	private String email;
 
-    @Column(name = "verified")
-    @JsonIgnore
-    private boolean verified;
+	@Column(name = "verified")
+	private boolean verified;
 
-    @Transient
-    private String token;
+	@Transient
+	private String token;
 }
