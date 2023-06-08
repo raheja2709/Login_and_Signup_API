@@ -64,7 +64,7 @@ public class AuthService {
 		if (upperCaseCount >= 2 && lowerCaseCount >= 2 && specialCharacter >= 1 && numberCount >= 1) {
 
 			UserMaster newUser = UserMaster.builder().firstName(registerdto.getFirstName())
-					.lastName(registerdto.getLastName()).username(registerdto.getUsername())
+					.lastName(registerdto.getLastName()).username(registerdto.getUsername()).minattempts(0L)
 					.email(registerdto.getEmail()).password(registerdto.getPassword()).build();
 
 			otpService.sendEmail(registerdto);
